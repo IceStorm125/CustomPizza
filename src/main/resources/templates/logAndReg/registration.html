@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Registry</title>
+    <div th:insert="parts/resources"></div>
+    <style>
+        body {
+            background-image: url("https://avatars.mds.yandex.net/get-pdb/49816/050769fc-c597-41bc-871e-f8eae090e32f/s1200");
+            background-size: 100%;
+        }
+        div.sign-in{
+            width: 400px;
+            background-color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%)
+        }
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="sign-in">
+    <form class="border border-light p-5" method="post"  th:object="${newUser}" th:action="@{/user/registration}">
+
+        <p class="h4 mb-4 text-center">Sign in</p>
+
+        <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:errorclass="invalid-input"></div>
+        <input type="text" th:field="*{name}" id="defaultLoginFormName" class="form-control mb-4" placeholder="Name">
+
+        <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" th:errorclass="invalid-input"></div>
+        <input type="email" th:field="*{email}" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
+
+        <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" th:errorclass="invalid-input"></div>
+        <input type="password" th:field="*{password}" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
+
+        <div class="error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" th:errorclass="invalid-input"></div>
+        <input type="text" th:field="*{phoneNumber}" id="defaultLoginFormPhoneNumber" class="form-control mb-4" placeholder="+375(XX)XXX-XX-XX">
+
+        <div class="error" th:if="${#fields.hasErrors('homeAddress')}" th:errors="*{homeAddress}" th:errorclass="invalid-input"></div>
+        <input type="text" th:field="*{homeAddress}" id="defaultLoginFormHomeAddress" class="form-control mb-4" placeholder="Home address">
+
+        <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+        <div class="text-center">
+            <p>Already registered?
+                <a th:href="@{/user/login}">Log in</a>
+            </p>
+        </div>
+    </form>
+    <script src="https://unpkg.com/imask"></script>
+    <script>window.onload = () => {
+        IMask(document.getElementById("defaultLoginFormPhoneNumber"),{
+            mask: "+{375}(00)000-00-00"
+        });
+    }</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div th:insert="~{/parts/header}"></div>
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th>Time</th>
+        <th>Price</th>
+        <th>Pizza</th>
+        <th>Repeat</th>
+    </tr>
+    </thead>
+    <tbody>
+    <div th:each="order : ${orders}">
+        <tr>
+            <th><div th:text="${order.date}"></div></th>
+            <th><div th:text="${order.pizza.price}"></div></th>
+            <th>
+                <a>Name: </a><span th:text="${order.pizza.name}"></span><br>
+                <a>Dough: </a><span th:text="${order.pizza.dough}"></span><br>
+                <a>Cheese: </a><span th:text="${order.pizza.cheese}"></span><br>
+                <a>Meet: </a><span th:text="${order.pizza.meet}"></span><br>
+                <a>Sauce: </a><span th:text="${order.pizza.sauce}"></span><br>
+                <a>Sausages: </a><span th:text="${order.pizza.sausage}"></span><br>
+                <a>Vegetables: </a><span th:text="${order.pizza.vegetables}"></span><br>
+                <a>Others: </a><span th:text="${order.pizza.others}"></span><br>
+                <a>Price: </a><span th:text="${order.pizza.price}"></span><br>
+            </th>
+            <th><a th:href="@{/user/repeat-order/{id}(id=${order.pizza.id})}">Repeat</a></th>
+        </tr>
+    </div>
+    </tbody>
+</table>
+</body>
+</html>

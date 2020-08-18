@@ -1,0 +1,171 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>
+        CustomPizza
+    </title>
+    <div th:insert="parts/resources"></div>
+    <link rel="stylesheet" th:href="@{../static/css/style1.css}">
+    <script type="text/javascript" th:src="@{js/index.js}"></script>
+<style>
+    body{
+        background-image: url("https://avatars.mds.yandex.net/get-pdb/49816/050769fc-c597-41bc-871e-f8eae090e32f/s1200");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .table_with_ingredients{
+        border-radius: 4px;
+        width: 1400px;
+        margin: 20px;
+    }
+
+    .ingredient{
+        width: 130px;
+        float: left;
+        margin: 5px;
+    }
+
+    .ingredients_box{
+        background-color: white;
+        border-radius: 10px;
+        margin: 30px;
+        float: left;
+        width: 600px;
+    }
+
+    .img{
+        width: 120px;
+        height: 120px;
+    }
+
+    .picture{
+        width: 100%;
+        height: 100%;
+    }
+
+</style>
+</head>
+<body>
+<div th:insert="~{/parts/header}"></div>
+<div class="table_with_ingredients">
+    <form name="form1" method="post" th:object="${newPizza}" th:action="@{/newOrder}">
+
+        <div class="ingredients_box">
+            <div>Pick your dough!</div>
+            <div class="ingredient" id="dough" th:each="dough : ${doughs}">
+                <div class="img">
+                    <img class="picture" th:src="${dough.imgSrc}">
+                </div>
+                <input id="elem1" name="elem" th:field="*{dough}" th:class="${dough.price}"  th:text="${dough.name} + ' '+${dough.price}+'р'"
+                       th:value="${dough.name}" type="radio" onchange="sumPrice()">
+            </div>
+        </div>
+
+        <div class="ingredients_box">
+            <div>Pick your sauces!</div>
+            <div class="ingredient" id="sauce" th:each="sauce : ${sauces} ">
+                <div class="radio">
+                    <div class="img">
+                        <img class="picture" th:src="${sauce.imgSrc}">
+                    </div>
+                    <input id="elem2" name="elem" th:field="*{sauce}" th:class="${sauce.price}" th:text="${sauce.name} + ' ' +${sauce.price}+'р'"
+                           th:value="${sauce.name}" type="checkbox" onchange="sumPrice()">
+                </div>
+            </div>
+        </div>
+
+        <div class="ingredients_box">
+            <div>Pick your cheese!</div>
+            <div class="ingredient" id="cheese" th:each="che : ${cheese} ">
+                <div class="radio">
+                    <div class="img">
+                        <img class="picture" th:src="${che.imgSrc}">
+                    </div>
+                    <input id="elem3" name="elem" th:field="*{cheese}" th:class="${che.price}" th:text="${che.name} + ' ' +${che.price}+'р'"
+                           th:value="${che.name}" type="checkbox" onchange="sumPrice()">
+                </div>
+            </div>
+        </div>
+
+        <div class="ingredients_box">
+            <div>Pick your meet!</div>
+            <div class="ingredient" id="meet" th:each="m : ${meet} ">
+                <div class="radio">
+                    <div class="img">
+                        <img class="picture" th:src="${m.imgSrc}">
+                    </div>
+                    <input id="elem4" name="elem" th:field="*{meet}" th:class="${m.price}" th:text="${m.name} + ' ' +${m.price}+'р'"
+                           th:value="${m.name}" type="checkbox" onchange="sumPrice()">
+                </div>
+            </div>
+        </div>
+
+        <div class="ingredients_box">
+            <div>Pick your sausage!</div>
+            <div class="ingredient" id="sausage" th:each="sausage : ${sausages} ">
+                <div class="radio">
+                    <div class="img">
+                        <img class="picture" th:src="${sausage.imgSrc}">
+                    </div>
+                    <input id="elem5" name="elem" th:field="*{sausage}" th:class="${sausage.price}" th:text="${sausage.name} + ' ' +${sausage.price}+'р'"
+                           th:value="${sausage.name}" type="checkbox" onchange="sumPrice()">
+                </div>
+            </div>
+        </div>
+
+        <div class="ingredients_box">
+            <div>Pick your vegetables!</div>
+            <div class="ingredient" id="vegetable" th:each="vegetable : ${vegetables} ">
+                <div class="radio">
+                    <div class="img">
+                        <img class="picture" th:src="${vegetable.imgSrc}">
+                    </div>
+                    <input id="elem6" name="elem" th:field="*{vegetables}" th:class="${vegetable.price}" th:text="${vegetable.name} + ' ' +${vegetable.price}+'р'"
+                           th:value="${vegetable.name}" type="checkbox" onchange="sumPrice()">
+                </div>
+            </div>
+        </div>
+
+        <div class="ingredients_box">
+            <div>Pick other ingredients!</div>
+            <div class="ingredient" id="other" th:each="other : ${others} ">
+                <div class="radio">
+                    <div class="img">
+                        <img class="picture" th:src="${other.imgSrc}">
+                    </div>
+                    <input id="elem7" name="elem" th:field="*{others}" th:class="${other.price}" th:text="${other.name} + ' ' +${other.price}+'р'"
+                           th:value="${other.name}" type="checkbox" onchange="sumPrice()">
+                </div>
+            </div>
+        </div>
+
+        <div class="ingredients_box">
+            <div>Write a name for your pizza!</div>
+            <br>
+            <input id="name" th:field="*{name}" type="text">
+            <br>
+            <a>Price:<a id="price" th:text="0"><a>р</a></a></a>
+            <input id="sum_price" th:field="*{price}" th:value="0" type="hidden">
+            <br>
+            <button type="submit">Submit</button>
+        </div>
+
+    </form>
+</div>
+</body>
+<script type="text/javascript">
+    function sumPrice() {
+        var price = 0;
+        var elements = document.querySelectorAll("#elem1, #elem2, #elem3, #elem4, #elem5, #elem6, #elem7")
+        for (var i = 0; i<elements.length; i++){
+            if (elements[i].checked){
+                price += parseFloat(elements[i].className);
+            }
+        }
+        document.getElementById("price").text = price.toFixed(1);
+        document.getElementById("sum_price").value = price.toFixed(1);
+    }
+</script>
+</html>
