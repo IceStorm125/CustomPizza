@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(schema = "users_and_workers",name = "users")
+@Table(name = "users")
 public class User {
 
     @Id
