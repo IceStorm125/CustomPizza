@@ -1,4 +1,4 @@
-package com.Andrey.CustomPizza.model.UsersAndWorkers;
+package com.Andrey.CustomPizza.model.UserDetails;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

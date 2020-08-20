@@ -20,19 +20,19 @@
         <th>Phone number</th>
         <th>Home address</th>
         <th>Condition</th>
-        <th>Take</th>
+        <th>Next condition</th>
     </tr>
     </thead>
     <tbody>
     <div th:each="order : ${orders}">
         <tr>
             <th><div th:text="${order.date}"></div></th>
-            <th><div th:text="${order.pizza.price}"></div></th>
+            <th><div th:text="${order.priceWithDiscount}"></div></th>
             <th><div th:text="${order.user.name}"></div></th>
             <th><div th:text="${order.user.phoneNumber}"></div></th>
             <th><div th:text="${order.user.homeAddress}"></div></th>
             <th><div th:text="${order.condition.name}"></div></th>
-            <th><a th:href="@{/delivered/{id}(id=${order.id})}">Take</a></th>
+            <th><a th:href="@{/delivered/{id}(id=${order.id})}">Next condition</a></th>
         </tr>
     </div>
     </tbody>

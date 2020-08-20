@@ -1,6 +1,6 @@
 package com.Andrey.CustomPizza.repository.Users;
 
-import com.Andrey.CustomPizza.model.UsersAndWorkers.User;
+import com.Andrey.CustomPizza.model.UserDetails.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,8 @@
 package com.Andrey.CustomPizza.service;
 
 import com.Andrey.CustomPizza.mail.MailSender;
-import com.Andrey.CustomPizza.model.UsersAndWorkers.Role;
-import com.Andrey.CustomPizza.model.UsersAndWorkers.User;
+import com.Andrey.CustomPizza.model.UserDetails.Role;
+import com.Andrey.CustomPizza.model.UserDetails.User;
 import com.Andrey.CustomPizza.repository.Users.RoleRepository;
 import com.Andrey.CustomPizza.repository.Users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveNewUser(User user) throws Exception {
+    public void save(User user) throws Exception {
         String email = user.getEmail();
 
         if (userRepository.findByEmail(email) != null){
@@ -61,6 +61,11 @@ public class UserServiceImpl implements UserService {
         }
 
         return user;
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.getOne(id);
     }
 
     @Override

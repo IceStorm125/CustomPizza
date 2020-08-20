@@ -1,7 +1,7 @@
 package com.Andrey.CustomPizza.controller;
 
 import com.Andrey.CustomPizza.model.PizzaAndOrderDetails.Pizza;
-import com.Andrey.CustomPizza.model.UsersAndWorkers.User;
+import com.Andrey.CustomPizza.model.UserDetails.User;
 import com.Andrey.CustomPizza.repository.Ingredients.*;
 import com.Andrey.CustomPizza.repository.PizzaAndOrderDetails.ConditionRepository;
 import com.Andrey.CustomPizza.repository.PizzaAndOrderDetails.PizzaRepository;
@@ -74,7 +74,7 @@ public class OrderController {
     }
 
     @PostMapping("/newOrder")
-    public String addOrderToDB(Pizza pizza,Principal principal){
+    public String addOrderToDB(Pizza pizza,Principal principal) throws Exception {
         pizzaRepository.save(pizza);
 
         User user = userService.getUserByEmail(principal.getName());

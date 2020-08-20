@@ -1,6 +1,6 @@
 package com.Andrey.CustomPizza.model.PizzaAndOrderDetails;
 
-import com.Andrey.CustomPizza.model.UsersAndWorkers.User;
+import com.Andrey.CustomPizza.model.UserDetails.User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,6 +16,7 @@ public class Order {
     private Long id;
 
     private Date date;
+    private double priceWithDiscount;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

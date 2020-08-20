@@ -1,11 +1,12 @@
 package com.Andrey.CustomPizza.service;
 
 
-import com.Andrey.CustomPizza.model.UsersAndWorkers.User;
+import com.Andrey.CustomPizza.model.UserDetails.User;
 
 public interface UserService {
 
     User getUserByEmail(String email);
-    void saveNewUser(User user) throws Exception;
+    User getUserById(Long id);
+    void save(User user) throws Exception;
     void activateUser(String code);
 }

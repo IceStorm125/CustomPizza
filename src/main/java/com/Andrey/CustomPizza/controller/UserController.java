@@ -1,8 +1,7 @@
 package com.Andrey.CustomPizza.controller;
 
-import com.Andrey.CustomPizza.model.PizzaAndOrderDetails.Order;
 import com.Andrey.CustomPizza.model.PizzaAndOrderDetails.Pizza;
-import com.Andrey.CustomPizza.model.UsersAndWorkers.User;
+import com.Andrey.CustomPizza.model.UserDetails.User;
 import com.Andrey.CustomPizza.repository.PizzaAndOrderDetails.ConditionRepository;
 import com.Andrey.CustomPizza.repository.PizzaAndOrderDetails.PizzaRepository;
 import com.Andrey.CustomPizza.service.OrderService;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.Date;
 
 @Controller
 @RequestMapping("/user")
@@ -48,16 +46,15 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public String saveUser(@Valid @ModelAttribute("newUser") User user, BindingResult result, SessionStatus status) throws Exception {
+    public String saveUser(@Valid @ModelAttribute("newUser") User user, BindingResult result) throws Exception {
         if (result.hasErrors()){
             return "/logAndReg/registration";
         }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userService.saveNewUser(user);
+        user.setDiscountFactor(1D);
+        userService.save(user);
 
         log.info("New user: {}",user);
-
-        status.setComplete();
 
         return "redirect:/user/login";
     }
@@ -82,13 +79,12 @@ public class UserController {
         User user = userService.getUserByEmail(principal.getName());
         model.addAttribute("orders",user.getOrders());
 
-        System.out.println(orderService.countAllUserOrders(user));
 
         return "orders/usersOrders";
     }
 
     @RequestMapping("/repeat-order/{id}")
-    public String repeatOrder(@PathVariable("id")Long pizzaId, Principal principal){
+    public String repeatOrder(@PathVariable("id")Long pizzaId, Principal principal) throws Exception {
 
         User user = userService.getUserByEmail(principal.getName());
         Pizza pizza = pizzaRepository.getOne(pizzaId);

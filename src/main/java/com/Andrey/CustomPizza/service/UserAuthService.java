@@ -1,7 +1,7 @@
 package com.Andrey.CustomPizza.service;
 
-import com.Andrey.CustomPizza.model.UsersAndWorkers.Role;
-import com.Andrey.CustomPizza.model.UsersAndWorkers.User;
+import com.Andrey.CustomPizza.model.UserDetails.Role;
+import com.Andrey.CustomPizza.model.UserDetails.User;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,4 +1,4 @@
-package com.Andrey.CustomPizza.model.UsersAndWorkers;
+package com.Andrey.CustomPizza.model.UserDetails;
 
 import com.Andrey.CustomPizza.model.PizzaAndOrderDetails.Order;
 import lombok.Data;
@@ -23,6 +23,8 @@ public class User {
     @Email
     @NotBlank(message = "Email is required")
     private String email;
+
+    private double discountFactor;
 
     @Column(nullable = false)
     @Size(min = 3, max = 20,message = "From 3 to 20")

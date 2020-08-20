@@ -3,9 +3,10 @@ package com.Andrey.CustomPizza.service;
 import com.Andrey.CustomPizza.mail.MailSender;
 import com.Andrey.CustomPizza.model.PizzaAndOrderDetails.Order;
 import com.Andrey.CustomPizza.model.PizzaAndOrderDetails.Pizza;
-import com.Andrey.CustomPizza.model.UsersAndWorkers.User;
+import com.Andrey.CustomPizza.model.UserDetails.User;
 import com.Andrey.CustomPizza.repository.PizzaAndOrderDetails.ConditionRepository;
 import com.Andrey.CustomPizza.repository.PizzaAndOrderDetails.OrderRepository;
+import org.apache.commons.math3.util.Precision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,10 @@ public class OrderServiceImpl implements OrderService {
     private final MailSender mailSender;
     private final ConditionRepository conditionRepository;
 
+
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, MailSender mailSender, ConditionRepository conditionRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, MailSender mailSender,
+                            ConditionRepository conditionRepository) {
         this.orderRepository = orderRepository;
         this.mailSender = mailSender;
         this.conditionRepository = conditionRepository;
@@ -30,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public void addOrder(User user, Pizza pizza) {
+    public void addOrder(User user, Pizza pizza) throws Exception {
 
         Order order = new Order();
 
@@ -38,10 +41,32 @@ public class OrderServiceImpl implements OrderService {
         order.setCondition(conditionRepository.getOne(1L));
         order.setPizza(pizza);
         order.setUser(user);
-
+        double price = Precision.round(order.getPizza().getPrice()*user.getDiscountFactor(),2);
+        order.setPriceWithDiscount(price);
         orderRepository.save(order);
 
+        updateUserDiscountFactor(user);
+
         sendOrderDetailsToUserEmail(user,pizza);
+    }
+
+    private int getCountOfAllUserOrders(User user) {
+        return orderRepository.countAllByUser(user);
+    }
+
+    private void updateUserDiscountFactor(User user) throws Exception {
+
+        int countOfOrders = getCountOfAllUserOrders(user);
+
+        if(countOfOrders>5){
+            user.setDiscountFactor(0.9);
+        }
+        if(countOfOrders>10){
+            user.setDiscountFactor(0.85);
+        }
+        if(countOfOrders>20){
+            user.setDiscountFactor(0.80);
+        }
     }
 
     @Override
@@ -88,12 +113,6 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.getOne(id);
         Long currentConditionID = order.getCondition().getId();
         order.setCondition(conditionRepository.getOne(++currentConditionID));
-        orderRepository.save(order);
-    }
-
-    @Override
-    public int countAllUserOrders(User user) {
-        return orderRepository.countAllByUser(user);
     }
 
 }
