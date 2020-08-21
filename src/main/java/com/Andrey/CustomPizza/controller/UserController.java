@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping("/registration")
-    public String createUserPage(Model model){
+    public String saveUserPage(Model model){
         model.addAttribute("newUser",new User());
         return "/logAndReg/registration";
     }

@@ -85,7 +85,6 @@ public class UserServiceImpl implements UserService {
 
         if (user != null) {
             user.setActivationCode(null);
-            userRepository.save(user);
         }
     }
 }
