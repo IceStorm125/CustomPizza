@@ -29,10 +29,6 @@ public class UserAuthService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) {
         User user = userServiceImpl.getUserByEmail(email);
 
-        if (user.getActivationCode()!=null){
-            throw new Exception("Please, activate your account!");
-        }
-
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),

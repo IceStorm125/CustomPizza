@@ -24,16 +24,14 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final PizzaRepository pizzaRepository;
     private final ConditionRepository conditionRepository;
     private final OrderService orderService;
 
     @Autowired
-    public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder,
-                          PizzaRepository pizzaRepository, ConditionRepository conditionRepository, OrderService orderService) {
+    public UserController(UserService userService, PizzaRepository pizzaRepository,
+                          ConditionRepository conditionRepository, OrderService orderService) {
         this.userService = userService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.pizzaRepository = pizzaRepository;
         this.conditionRepository = conditionRepository;
         this.orderService = orderService;
@@ -50,8 +48,6 @@ public class UserController {
         if (result.hasErrors()){
             return "/logAndReg/registration";
         }
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setDiscountFactor(1D);
         userService.save(user);
 
         log.info("New user: {}",user);

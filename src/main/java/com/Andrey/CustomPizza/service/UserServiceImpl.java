@@ -5,8 +5,10 @@ import com.Andrey.CustomPizza.model.UserDetails.Role;
 import com.Andrey.CustomPizza.model.UserDetails.User;
 import com.Andrey.CustomPizza.repository.Users.RoleRepository;
 import com.Andrey.CustomPizza.repository.Users.UserRepository;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,12 +21,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final MailSender mailSender;
     private final RoleRepository roleRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, MailSender mailSender, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, MailSender mailSender,
+                           RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.mailSender = mailSender;
         this.roleRepository = roleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -35,7 +40,8 @@ public class UserServiceImpl implements UserService {
             throw new Exception("This email is already in use");
         }else {
             user.setActivationCode(UUID.randomUUID().toString());
-
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setDiscountFactor(1D);
             HashSet<Role> list = new HashSet<>();
             list.add(roleRepository.findByName("ROLE_USER"));
             user.setRoles(new HashSet<>(list));
@@ -52,12 +58,17 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @SneakyThrows
     @Override
     public User getUserByEmail(String email){
         User user = userRepository.findByEmail(email);
 
         if (user == null){
             throw new UsernameNotFoundException("User not found");
+        }
+
+        if (user.getActivationCode()!=null){
+            throw new Exception("Please, activate your account!");
         }
 
         return user;
