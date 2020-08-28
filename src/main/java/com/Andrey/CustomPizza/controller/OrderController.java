@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -33,15 +35,13 @@ public class OrderController {
     private final VegetableRepository vegetableRepository;
     private final UserService userService;
     private final OrderService orderService;
-    private final ConditionRepository conditionRepository;
 
     @Autowired
     public OrderController(PizzaRepository pizzaRepository, SauceRepository sauceRepository,
                            DoughRepository doughRepository, CheeseRepository cheeseRepository,
                            MeetRepository meetRepository, OtherRepository otherRepository,
                            SausageRepository sausageRepository, VegetableRepository vegetableRepository,
-                           UserService userService, OrderService orderService,
-                           ConditionRepository conditionRepository) {
+                           UserService userService, OrderService orderService) {
         this.pizzaRepository = pizzaRepository;
         this.sauceRepository = sauceRepository;
         this.doughRepository = doughRepository;
@@ -52,7 +52,6 @@ public class OrderController {
         this.vegetableRepository = vegetableRepository;
         this.userService = userService;
         this.orderService = orderService;
-        this.conditionRepository = conditionRepository;
     }
 
     @GetMapping("/")
