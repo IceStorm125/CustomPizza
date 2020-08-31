@@ -18,6 +18,9 @@ import java.util.*;
 @Transactional
 public class UserServiceImpl implements UserService {
 
+    public static final double DISCOUNT_FACTOR_FOR_NEW_USER = 1;
+    public static final String SUBJECT_FOR_EMAIL_MESSAGE = "Activation code";
+
     private final UserRepository userRepository;
     private final MailSender mailSender;
     private final RoleRepository roleRepository;
@@ -41,7 +44,7 @@ public class UserServiceImpl implements UserService {
         }else {
             user.setActivationCode(UUID.randomUUID().toString());
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            user.setDiscountFactor(1D);
+            user.setDiscountFactor(DISCOUNT_FACTOR_FOR_NEW_USER);
             HashSet<Role> list = new HashSet<>();
             list.add(roleRepository.findByName("ROLE_USER"));
             user.setRoles(new HashSet<>(list));
@@ -54,7 +57,7 @@ public class UserServiceImpl implements UserService {
                     user.getName(),
                     user.getActivationCode()
             );
-            mailSender.send(user.getEmail(),"Activation code", message);
+            mailSender.send(user.getEmail(),SUBJECT_FOR_EMAIL_MESSAGE, message);
         }
     }
 
@@ -72,11 +75,6 @@ public class UserServiceImpl implements UserService {
         }
 
         return user;
-    }
-
-    @Override
-    public User getUserById(Long id) {
-        return userRepository.getOne(id);
     }
 
     @Override

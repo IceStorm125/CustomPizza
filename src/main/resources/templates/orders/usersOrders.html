@@ -23,7 +23,7 @@
     <tbody>
     <div th:each="order : ${orders}">
         <tr>
-            <th><div th:text="${order.date}"></div></th>
+            <th><div th:text="${order.time}"></div></th>
             <th><div th:text="${order.pizza.price}"></div></th>
             <th>
                 <a>Name: </a><span th:text="${order.pizza.name}"></span><br>

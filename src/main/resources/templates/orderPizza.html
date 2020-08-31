@@ -61,6 +61,7 @@
                 <input id="elem1" name="elem" th:field="*{dough}" th:class="${dough.price}"  th:text="${dough.name} + ' '+${dough.price}+'р'"
                        th:value="${dough.name}" type="radio" onchange="sumPrice()">
             </div>
+            <div class="error" th:if="${#fields.hasErrors('dough')}" th:errors="*{dough}" th:errorclass="invalid-input"></div>
         </div>
 
         <div class="ingredients_box">
@@ -164,8 +165,8 @@
                 price += parseFloat(elements[i].className);
             }
         }
-        document.getElementById("price").text = price.toFixed(1);
-        document.getElementById("sum_price").value = price.toFixed(1);
+        document.getElementById("price").text = price.toFixed(2);
+        document.getElementById("sum_price").value = price.toFixed(2);
     }
 </script>
 </html>

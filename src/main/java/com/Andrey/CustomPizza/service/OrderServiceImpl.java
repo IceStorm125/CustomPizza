@@ -6,7 +6,7 @@ import com.Andrey.CustomPizza.model.PizzaAndOrderDetails.Pizza;
 import com.Andrey.CustomPizza.model.UserDetails.User;
 import com.Andrey.CustomPizza.repository.PizzaAndOrderDetails.ConditionRepository;
 import com.Andrey.CustomPizza.repository.PizzaAndOrderDetails.OrderRepository;
-import org.apache.commons.math3.util.Precision;
+import org.decimal4j.util.DoubleRounder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +17,8 @@ import java.util.List;
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
+
+    public static final int PRECISION = 2;
 
     private final OrderRepository orderRepository;
     private final MailSender mailSender;
@@ -33,49 +35,48 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public void addOrder(User user, Pizza pizza) throws Exception {
+    public void addOrder(User user, Pizza pizza) {
 
         Order order = new Order();
 
-        order.setDate(new Date());
+        order.setTime(new Date());
         order.setCondition(conditionRepository.getOne(1L));
         order.setPizza(pizza);
         order.setUser(user);
-        double price = Precision.round(order.getPizza().getPrice()*user.getDiscountFactor(),2);
-        order.setPriceWithDiscount(price);
+
+
+        double price = order.getPizza().getPrice() * user.getDiscountFactor();
+        double roundedPrice = new DoubleRounder(PRECISION).round(price);
+
+        order.setPriceWithDiscount(roundedPrice);
         orderRepository.save(order);
 
         updateUserDiscountFactor(user);
 
-        sendOrderDetailsToUserEmail(user,pizza);
+        sendOrderDetailsToUserEmail(user, pizza);
     }
 
     private int getCountOfAllUserOrders(User user) {
         return orderRepository.countAllByUser(user);
     }
 
-    private void updateUserDiscountFactor(User user) throws Exception {
+    private void updateUserDiscountFactor(User user) {
 
         int countOfOrders = getCountOfAllUserOrders(user);
 
-        if(countOfOrders>5){
+        if (countOfOrders > 5) {
             user.setDiscountFactor(0.9);
         }
-        if(countOfOrders>10){
+        if (countOfOrders > 10) {
             user.setDiscountFactor(0.85);
         }
-        if(countOfOrders>20){
+        if (countOfOrders > 20) {
             user.setDiscountFactor(0.80);
         }
     }
 
     @Override
-    public Order getOrderById(Long id) {
-        return orderRepository.getOne(id);
-    }
-
-    @Override
-    public void sendOrderDetailsToUserEmail(User user, Pizza pizza){
+    public void sendOrderDetailsToUserEmail(User user, Pizza pizza) {
 
         String message = String.format(
                 "Hello, %s\n\n" +
@@ -88,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
                         "Sausages: %s\n" +
                         "Vegetables: %s\n" +
                         "Others: %s\n\n" +
-                        "Price: %s"+"p" ,
+                        "Price: %s" + "p",
                 user.getName(),
                 pizza.getName().toUpperCase(),
                 pizza.getDough() == null ? "" : pizza.getDough(),
@@ -100,7 +101,7 @@ public class OrderServiceImpl implements OrderService {
                 pizza.getOthers() == null ? "" : pizza.getOthers(),
                 pizza.getPrice()
         );
-        mailSender.send(user.getEmail(),"Your order",message);
+        mailSender.send(user.getEmail(), "Your order", message);
     }
 
     @Override

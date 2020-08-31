@@ -14,7 +14,9 @@
 <table class="table">
     <thead class="thead-dark">
     <tr>
+        <th>№</th>
         <th>Time</th>
+        <th>Pizza</th>
         <th>Price</th>
         <th>Name</th>
         <th>Phone number</th>
@@ -26,7 +28,19 @@
     <tbody>
     <div th:each="order : ${orders}">
         <tr>
-            <th><div th:text="${order.date}"></div></th>
+            <th><div th:text="${order.id}"></div> </th>
+            <th><div th:text="${order.time}"></div></th>
+            <th>
+                <a>Name: </a><span th:text="${order.pizza.name}"></span><br>
+                <a>Dough: </a><span th:text="${order.pizza.dough}"></span><br>
+                <a>Cheese: </a><span th:text="${order.pizza.cheese}"></span><br>
+                <a>Meet: </a><span th:text="${order.pizza.meet}"></span><br>
+                <a>Sauce: </a><span th:text="${order.pizza.sauce}"></span><br>
+                <a>Sausages: </a><span th:text="${order.pizza.sausage}"></span><br>
+                <a>Vegetables: </a><span th:text="${order.pizza.vegetables}"></span><br>
+                <a>Others: </a><span th:text="${order.pizza.others}"></span><br>
+                <a>Price: </a><span th:text="${order.pizza.price}"></span><br>
+            </th>
             <th><div th:text="${order.priceWithDiscount}"></div></th>
             <th><div th:text="${order.user.name}"></div></th>
             <th><div th:text="${order.user.phoneNumber}"></div></th>

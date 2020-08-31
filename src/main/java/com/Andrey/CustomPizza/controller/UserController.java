@@ -2,18 +2,15 @@ package com.Andrey.CustomPizza.controller;
 
 import com.Andrey.CustomPizza.model.PizzaAndOrderDetails.Pizza;
 import com.Andrey.CustomPizza.model.UserDetails.User;
-import com.Andrey.CustomPizza.repository.PizzaAndOrderDetails.ConditionRepository;
 import com.Andrey.CustomPizza.repository.PizzaAndOrderDetails.PizzaRepository;
 import com.Andrey.CustomPizza.service.OrderService;
 import com.Andrey.CustomPizza.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -25,15 +22,12 @@ public class UserController {
 
     private final UserService userService;
     private final PizzaRepository pizzaRepository;
-    private final ConditionRepository conditionRepository;
     private final OrderService orderService;
 
     @Autowired
-    public UserController(UserService userService, PizzaRepository pizzaRepository,
-                          ConditionRepository conditionRepository, OrderService orderService) {
+    public UserController(UserService userService, PizzaRepository pizzaRepository, OrderService orderService) {
         this.userService = userService;
         this.pizzaRepository = pizzaRepository;
-        this.conditionRepository = conditionRepository;
         this.orderService = orderService;
     }
 
@@ -57,9 +51,7 @@ public class UserController {
 
     @GetMapping("/login")
     public String loginPage(Model model){
-
         model.addAttribute("user",new User());
-
         return "/logAndReg/login";
     }
 

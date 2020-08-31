@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query("select o from Order o where o.condition.name <> 'Delivered' order by o.date")
+    @Query("select o from Order o where o.condition.name <> 'Delivered' order by o.time")
     List<Order> findAllCurrentOrders();
 
     int countAllByUser(User user);
