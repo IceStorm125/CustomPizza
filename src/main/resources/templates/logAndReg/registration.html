@@ -40,9 +40,6 @@
         <div class="error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" th:errorclass="invalid-input"></div>
         <input type="text" th:field="*{phoneNumber}" id="defaultLoginFormPhoneNumber" class="form-control mb-4" placeholder="+375(XX)XXX-XX-XX">
 
-        <div class="error" th:if="${#fields.hasErrors('homeAddress')}" th:errors="*{homeAddress}" th:errorclass="invalid-input"></div>
-        <input type="text" th:field="*{homeAddress}" id="defaultLoginFormHomeAddress" class="form-control mb-4" placeholder="Home address">
-
         <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
         <div class="text-center">
             <p>Already registered?

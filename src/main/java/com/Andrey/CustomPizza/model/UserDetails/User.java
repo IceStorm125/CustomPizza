@@ -40,10 +40,6 @@ public class User {
     @NotBlank(message = "Phone number is required")
     private String phoneNumber;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Home address is required")
-    private String homeAddress;
-
     private String activationCode;
 
     @ManyToMany(fetch = FetchType.EAGER)

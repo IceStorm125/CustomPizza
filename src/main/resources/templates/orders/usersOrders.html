@@ -36,7 +36,14 @@
                 <a>Others: </a><span th:text="${order.pizza.others}"></span><br>
                 <a>Price: </a><span th:text="${order.pizza.price}"></span><br>
             </th>
-            <th><a th:href="@{/user/repeat-order/{id}(id=${order.pizza.id})}">Repeat</a></th>
+            <th>
+                <form method="post" th:action="@{/user/repeat-order/{id}(id=${order.pizza.id})}">
+                    <label for="address">Delivery address</label>
+                    <input id="address" name="address" type="text">
+                    <br>
+                    <button type="submit" value="Repeat order">Repeat order</button>
+                </form>
+            </th>
         </tr>
     </div>
     </tbody>

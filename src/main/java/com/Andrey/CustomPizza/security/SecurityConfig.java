@@ -41,7 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/orderPizza").authenticated()
-                    .antMatchers("/","/order","/user/registration","/user/login","/user/activate/*").anonymous()
+                    .antMatchers("/").permitAll()
+                    .antMatchers("/order","/user/registration","/user/login","/user/activate/*").anonymous()
                     .antMatchers("/orders/*").hasRole("ADMIN")
                 .and()
                     .exceptionHandling().accessDeniedPage("/")

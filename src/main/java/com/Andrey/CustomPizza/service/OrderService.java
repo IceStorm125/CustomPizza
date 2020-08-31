@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    void addOrder(User user,Pizza pizza) throws Exception;
+    void addOrder(User user,Pizza pizza, String address) throws Exception;
     void sendOrderDetailsToUserEmail(User user, Pizza pizza);
     List<Order> getAllCurrentOrders();
     void updateOrderConditionFromPreviousToNextById(Long id);

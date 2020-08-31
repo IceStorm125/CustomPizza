@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public void addOrder(User user, Pizza pizza) {
+    public void addOrder(User user, Pizza pizza, String address) {
 
         Order order = new Order();
 
@@ -49,6 +49,7 @@ public class OrderServiceImpl implements OrderService {
         double roundedPrice = new DoubleRounder(PRECISION).round(price);
 
         order.setPriceWithDiscount(roundedPrice);
+        order.setDeliveryAddress(address);
         orderRepository.save(order);
 
         updateUserDiscountFactor(user);

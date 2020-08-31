@@ -18,6 +18,8 @@ public class Order {
     private Date time;
     private double priceWithDiscount;
 
+    private String deliveryAddress;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

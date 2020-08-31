@@ -69,13 +69,12 @@ public class OrderController {
     }
 
     @PostMapping("/newOrder")
-    public String addOrderToDB(Pizza pizza, Principal principal) throws Exception {
-
+    public String addOrderToDB(Pizza pizza, Principal principal,@RequestParam("address") String address) throws Exception {
+        System.out.println(address);
         pizzaRepository.save(pizza);
 
         User user = userService.getUserByEmail(principal.getName());
-
-        orderService.addOrder(user,pizza);
+        orderService.addOrder(user,pizza,address);
 
         return "redirect:/";
     }

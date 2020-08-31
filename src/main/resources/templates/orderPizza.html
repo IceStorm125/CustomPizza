@@ -143,9 +143,11 @@
         </div>
 
         <div class="ingredients_box">
-            <div>Write a name for your pizza!</div>
-            <br>
+            <label for="name">Write a name for your pizza!</label>
             <input id="name" th:field="*{name}" type="text">
+            <br>
+            <label for="address">Write a delivery address</label>
+            <input id="address" name="address" type="text">
             <br>
             <a>Price:<a id="price" th:text="0"><a>р</a></a></a>
             <input id="sum_price" th:field="*{price}" th:value="0" type="hidden">
