@@ -1,5 +1,6 @@
 package com.Andrey.CustomPizza.model.PizzaAndOrderDetails;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
@@ -33,6 +34,7 @@ public class Pizza {
     private String others;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Order> orders;
 
 }

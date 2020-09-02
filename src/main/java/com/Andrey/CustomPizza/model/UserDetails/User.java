@@ -44,6 +44,7 @@ public class User {
     @NotBlank(message = "Phone number is required")
     private String phoneNumber;
 
+    @JsonBackReference
     private String activationCode;
 
     @ManyToMany(fetch = FetchType.EAGER)
