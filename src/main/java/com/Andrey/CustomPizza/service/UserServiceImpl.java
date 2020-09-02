@@ -85,4 +85,9 @@ public class UserServiceImpl implements UserService {
             user.setActivationCode(null);
         }
     }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
 }

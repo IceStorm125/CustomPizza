@@ -1,6 +1,8 @@
 package com.Andrey.CustomPizza.model.PizzaAndOrderDetails;
 
 import com.Andrey.CustomPizza.model.UserDetails.User;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 import javax.persistence.*;

@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(schema = "ingredients",name = "cheese")
+
 public class Cheese {
 
     @Id

@@ -1,6 +1,10 @@
 package com.Andrey.CustomPizza.model.UserDetails;
 
 import com.Andrey.CustomPizza.model.PizzaAndOrderDetails.Order;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -43,9 +47,11 @@ public class User {
     private String activationCode;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonBackReference
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Order> orders;
 
 }
