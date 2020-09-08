@@ -44,7 +44,7 @@
             <th><div th:text="${order.priceWithDiscount}"></div></th>
             <th><div th:text="${order.user.name}"></div></th>
             <th><div th:text="${order.user.phoneNumber}"></div></th>
-            <th><div th:text="${order.user.homeAddress}"></div></th>
+            <th><div th:text="${order.deliveryAddress}"></div></th>
             <th><div th:text="${order.condition.name}"></div></th>
             <th><a th:href="@{/delivered/{id}(id=${order.id})}">Next condition</a></th>
         </tr>

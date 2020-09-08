@@ -15,4 +15,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findAllCurrentOrders();
 
     int countAllByUser(User user);
+
+    List<Order> findAllByUser(User user);
 }

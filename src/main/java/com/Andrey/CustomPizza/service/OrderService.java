@@ -12,4 +12,5 @@ public interface OrderService {
     void sendOrderDetailsToUserEmail(User user, Pizza pizza);
     List<Order> getAllCurrentOrders();
     void updateOrderConditionFromPreviousToNextById(Long id);
+    List<Order> getAllByUser(User user);
 }

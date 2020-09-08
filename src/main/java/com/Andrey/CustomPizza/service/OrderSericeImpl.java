@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class OrderServiceImpl implements OrderService {
+public class OrderSericeImpl implements OrderService {
 
     public static final int PRECISION = 2;
 
@@ -26,8 +26,8 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, MailSender mailSender,
-                            ConditionRepository conditionRepository) {
+    public OrderSericeImpl(OrderRepository orderRepository, MailSender mailSender,
+                           ConditionRepository conditionRepository) {
         this.orderRepository = orderRepository;
         this.mailSender = mailSender;
         this.conditionRepository = conditionRepository;
@@ -115,6 +115,11 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.getOne(id);
         Long currentConditionID = order.getCondition().getId();
         order.setCondition(conditionRepository.getOne(++currentConditionID));
+    }
+
+    @Override
+    public List<Order> getAllByUser(User user) {
+        return orderRepository.findAllByUser(user);
     }
 
 }

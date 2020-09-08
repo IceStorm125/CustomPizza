@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
-public class OrderResponseApiModel {
+public class OrderDTO {
 
     private Date time;
     private String conditionName;
