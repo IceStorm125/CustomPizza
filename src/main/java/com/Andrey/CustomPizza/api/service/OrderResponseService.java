@@ -16,9 +16,11 @@ public class OrderResponseService implements OrderResponse{
         List<OrderDTO> orderResponses = new ArrayList<>();
         for(Order order:orders){
             orderResponses.add(new OrderDTO(
+                    order.getId(),
                     order.getTime(),
                     order.getCondition().getName(),
                     order.getPizza(),
+                    order.getUser().getPhoneNumber(),
                     order.getUser().getName(),
                     order.getPriceWithDiscount(),
                     order.getDeliveryAddress()
