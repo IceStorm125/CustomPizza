@@ -13,9 +13,9 @@ public class OrderResponseService implements OrderResponse{
 
     @Override
     public List<OrderDTO> getOrderResponse(List<Order> orders) {
-        List<OrderDTO> orderResponses = new ArrayList<>();
+        List<OrderDTO> orderResponse = new ArrayList<>();
         for(Order order:orders){
-            orderResponses.add(new OrderDTO(
+            orderResponse.add(new OrderDTO(
                     order.getId(),
                     order.getTime(),
                     order.getCondition().getName(),
@@ -26,6 +26,6 @@ public class OrderResponseService implements OrderResponse{
                     order.getDeliveryAddress()
             ));
         }
-        return orderResponses;
+        return orderResponse;
     }
 }
