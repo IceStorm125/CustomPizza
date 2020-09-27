@@ -3,16 +3,17 @@ package com.Andrey.CustomPizza.api.controller;
 import com.Andrey.CustomPizza.api.model.OrderDTO;
 import com.Andrey.CustomPizza.api.model.PizzaDTO;
 import com.Andrey.CustomPizza.api.service.OrderResponse;
+import com.Andrey.CustomPizza.model.PizzaAndOrderDetails.Pizza;
 import com.Andrey.CustomPizza.model.UserDetails.User;
 import com.Andrey.CustomPizza.repository.Ingredients.*;
+import com.Andrey.CustomPizza.repository.PizzaAndOrderDetails.PizzaRepository;
 import com.Andrey.CustomPizza.service.OrderService;
 import com.Andrey.CustomPizza.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,13 +33,14 @@ public class OrderController {
     private final OtherRepository otherRepository;
     private final SausageRepository sausageRepository;
     private final VegetableRepository vegetableRepository;
+    private final PizzaRepository pizzaRepository;
 
     @Autowired
     public OrderController(OrderResponse orderResponse, OrderService orderService,
                            UserService userService, DoughRepository doughRepository,
                            SauceRepository sauceRepository, CheeseRepository cheeseRepository,
                            MeetRepository meetRepository, OtherRepository otherRepository,
-                           SausageRepository sausageRepository, VegetableRepository vegetableRepository) {
+                           SausageRepository sausageRepository, VegetableRepository vegetableRepository, PizzaRepository pizzaRepository) {
         this.orderResponse = orderResponse;
         this.orderService = orderService;
         this.userService = userService;
@@ -49,30 +51,23 @@ public class OrderController {
         this.otherRepository = otherRepository;
         this.sausageRepository = sausageRepository;
         this.vegetableRepository = vegetableRepository;
+        this.pizzaRepository = pizzaRepository;
     }
 
-    @GetMapping("/current")
-    public List<OrderDTO> getAllCurrentOrders(){
-        return orderResponse.getOrderResponse(orderService.getAllCurrentOrders());
-    }
-
-    @GetMapping("/user/orders")
-    public List<OrderDTO> getAllUserOrders(){
-        User user = userService.getUserByEmail("tasali7350@aenmail.net");
-        return orderResponse.getOrderResponse(orderService.getAllByUser(user));
-    }
 
     @GetMapping("/ingredients")
-    public PizzaDTO getIngredients(){
-        return new PizzaDTO(
-                cheeseRepository.findAll(),
-                doughRepository.findAll(),
-                meetRepository.findAll(),
-                otherRepository.findAll(),
-                sauceRepository.findAll(),
-                sausageRepository.findAll(),
-                vegetableRepository.findAll()
-        );
+    public ResponseEntity<PizzaDTO> getIngredients(){
+        PizzaDTO pizzaDTO = new PizzaDTO(
+                cheeseRepository.findAll(), doughRepository.findAll(),
+                meetRepository.findAll(), otherRepository.findAll(),
+                sauceRepository.findAll(), sausageRepository.findAll(),
+                vegetableRepository.findAll());
+        return new ResponseEntity<>(pizzaDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/order")
+    public void postPizza(@RequestBody String pizza){
+        System.out.println(pizza);
     }
 
 }
